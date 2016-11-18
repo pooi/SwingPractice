@@ -166,6 +166,7 @@ class Prob12_01Panel extends JPanel implements MouseListener, MouseMotionListene
 			
 		}
 		
+		
 	}
 
 	@Override
