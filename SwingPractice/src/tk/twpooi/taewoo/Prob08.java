@@ -2,6 +2,7 @@ package tk.twpooi.taewoo;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -58,6 +59,7 @@ class Prob08Panel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				time += 3600;
 				label.setText(getTimeText());
+				repaint();
 			}
 			
 		});
@@ -70,6 +72,7 @@ class Prob08Panel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				time += 60;
 				label.setText(getTimeText());
+				repaint();
 			}
 			
 		});
@@ -82,6 +85,7 @@ class Prob08Panel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				time += 1;
 				label.setText(getTimeText());
+				repaint();
 			}
 			
 		});
@@ -136,6 +140,14 @@ class Prob08Panel extends JPanel{
 		
 	}
 	
+	private int calculateHorizontalOffset(int angle, int radius) {
+        return (int) Math.round(Math.cos(Math.toRadians(angle)) * radius);
+    }
+
+    private int calculateVerticalOffset(int angle, int radius) {
+        return (int) Math.round(Math.sin(Math.toRadians(angle)) * radius);
+    }
+	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -145,20 +157,91 @@ class Prob08Panel extends JPanel{
 			int width = parent.getWidth();
 			int height = parent.getHeight();
 			int r = Math.min(width, height)/2 - 50;
-			int angle = (getSec())*6;
-			double xChange = r * Math.cos(Math.toRadians(angle));
-			double yChange = r*Math.sin(Math.toRadians(angle));
+			//int angle = (getSec())*6;
+			//double xChange = r * Math.cos(Math.toRadians(angle));
+			//double yChange = r*Math.sin(Math.toRadians(angle));
+			
 			
 			int cx = width/2;
 			int cy = height/2;
 			
 			Graphics2D g2d = (Graphics2D)g;
 			g2d.setStroke(new BasicStroke(2));
-			
+
+			g2d.setColor(Color.white);
+			g2d.fillOval(cx-r, cy-r, r*2, r*2);
+			g2d.setColor(Color.black);
 			g2d.drawOval(cx-r, cy-r, r*2, r*2);
 			
-			g2d.drawLine(cx, cy, (int)(cx+xChange), (int)(cy-r+yChange));
+			g2d.setColor(Color.black);
+			for(int i=0; i<=60; i++){
+				
+				int offsetX, offsetY;
+				
+				offsetX = calculateHorizontalOffset(i*6, r);
+		        offsetY = calculateVerticalOffset(i*6, r);
+
+				g2d.drawLine(cx, cy, cx + offsetX, cy + offsetY);
+				
+			}
 			
+			r -= 10;
+			
+			g2d.setColor(Color.white);
+			g2d.fillOval(cx-r, cy-r, r*2, r*2);
+			
+			r+= 10;
+
+			g2d.setColor(Color.black);
+			for(int i=0; i<=60; i+=5){
+				
+				int offsetX, offsetY;
+				
+				offsetX = calculateHorizontalOffset(i*6, r);
+		        offsetY = calculateVerticalOffset(i*6, r);
+
+				g2d.drawLine(cx, cy, cx + offsetX, cy + offsetY);
+				
+			}
+			
+			r -= 20;
+			
+			g2d.setColor(Color.white);
+			g2d.fillOval(cx-r, cy-r, r*2, r*2);
+			
+			
+			// Second
+			g2d.setStroke(new BasicStroke(2));
+			g2d.setColor(Color.blue);
+			
+			int offsetX, offsetY;
+			
+			offsetX = calculateHorizontalOffset((getSec()-15)*6, r);
+	        offsetY = calculateVerticalOffset((getSec()-15)*6, r);
+
+			g2d.drawLine(cx, cy, cx + offsetX, cy + offsetY);
+			
+
+			// Minute
+			r-=20;
+			g2d.setStroke(new BasicStroke(4));
+			g2d.setColor(Color.green);
+			
+			offsetX = calculateHorizontalOffset((getMin()-15)*6, r);
+	        offsetY = calculateVerticalOffset((getMin()-15)*6, r);
+
+			g2d.drawLine(cx, cy, cx + offsetX, cy + offsetY);
+
+
+			// Hour
+			r-=40;
+			g2d.setStroke(new BasicStroke(6));
+			g2d.setColor(Color.red);
+			
+			offsetX = calculateHorizontalOffset((getHour()*60/12-15)*6, r);
+	        offsetY = calculateVerticalOffset((getHour()*60/12-15)*6, r);
+
+			g2d.drawLine(cx, cy, cx + offsetX, cy + offsetY);
 			
 		}else{
 			
