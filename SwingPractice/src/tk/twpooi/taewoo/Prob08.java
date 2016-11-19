@@ -157,10 +157,6 @@ class Prob08Panel extends JPanel{
 			int width = parent.getWidth();
 			int height = parent.getHeight();
 			int r = Math.min(width, height)/2 - 50;
-			//int angle = (getSec())*6;
-			//double xChange = r * Math.cos(Math.toRadians(angle));
-			//double yChange = r*Math.sin(Math.toRadians(angle));
-			
 			
 			int cx = width/2;
 			int cy = height/2;
