@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,7 +31,7 @@ public class Prob09_01 {
 
 }
 
-class Prob09_01Panel extends JPanel implements MouseListener{
+class Prob09_01Panel extends JPanel implements MouseListener, MouseMotionListener{
 
 	private ArrayList<HashMap<String, Integer>> list; 
 
@@ -80,6 +81,7 @@ class Prob09_01Panel extends JPanel implements MouseListener{
 		}.start();
 
 		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
 
 	}
 
@@ -135,6 +137,23 @@ class Prob09_01Panel extends JPanel implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		HashMap<String, Integer> temp = new HashMap<>();
+		temp.put("x", e.getX());
+		temp.put("y", e.getY());
+		temp.put("num", 1);
+		temp.put("r", 0);
+		list.add(temp);
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
